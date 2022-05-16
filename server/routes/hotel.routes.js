@@ -13,4 +13,9 @@ router.post("/", hetelControllers.createHotel);
 // @access private
 router.put("/:id", hetelControllers.updateHotel);
 
+// @routes api/hotels/:id
+// @desc DELETE delete hotel
+// @access private
+router.delete("/:id", hetelControllers.deleteHotel);
+
 module.exports = router;
