@@ -43,3 +43,12 @@ module.exports.getHotel = async (req, res, next) => {
         next(error);
     }
 };
+
+module.exports.getAllHotels = async (req, res, next) => {
+    try {
+        const getHotel = await Hotel.findById(req.params.id);
+        res.status(200).json(getHotel);
+    } catch (error) {
+        next(error);
+    }
+};

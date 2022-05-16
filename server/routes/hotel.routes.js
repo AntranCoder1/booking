@@ -23,4 +23,9 @@ router.delete("/:id", hotelControllers.deleteHotel);
 // @access private
 router.get("/:id", hotelControllers.getHotel);
 
+// @routes api/hotels/
+// @desc GET get all hotel
+// @access private
+router.get("/", hotelControllers.getAllHotels);
+
 module.exports = router;
