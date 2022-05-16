@@ -1,12 +1,13 @@
-const express = require("express");
-const dotenv = require("dotenv");
-const mongoose = require("mongoose");
-const cors = require("cors");
-const cookieParser = require("cookie-parser");
+import express from "express";
+import dotenv from "dotenv";
+import mongoose from "mongoose";
+import cookieParser from "cookie-parser";
+import cors from "cors";
 
-const authRoutes = require("./routes/auth.routes");
-const hotelRoutes = require("./routes/hotel.routes");
-const userRoutes = require("./routes/user.routes");
+import authRoutes from "./routes/Auth.js";
+import userRoutes from "./routes/User.js";
+import hotelRoutes from "./routes/Hotel.js";
+import roomRoutes from "./routes/Room.js";
 
 const app = express();
 dotenv.config();
@@ -14,24 +15,25 @@ dotenv.config();
 const connect = async () => {
     try {
         await mongoose.connect(process.env.MONGO);
-        console.log("Connect to mongoDB.");
+        console.log("Connected to mongoDB.");
     } catch (error) {
         throw error;
     }
 };
+  
+mongoose.connection.on("disconnected", () => {
+    console.log("mongoDB disconnected!");
+});
 
-// mongoose.connection.on("disconnected", () => {
-//     console.log("mongoDB disconnected!");
-// });
-
-// middlewares
-app.use(cors());
-app.use(cookieParser());
+//middlewares
+app.use(cors())
+app.use(cookieParser())
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
-app.use("/api/hotels", hotelRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/hotels", hotelRoutes);
+app.use("/api/rooms", roomRoutes);
 
 app.use((err, req, res, next) => {
     const errorStatus = err.status || 500;
@@ -43,9 +45,9 @@ app.use((err, req, res, next) => {
         stack: err.stack,
     });
 });
-
+  
 const PORT = 5000;
 app.listen(PORT, () => {
     connect();
-    console.log(`Server running at http://localhost:${PORT}`)
-})
+    console.log(`Server running at http://localhost:${PORT}`);
+});
