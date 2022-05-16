@@ -25,3 +25,12 @@ module.exports.updateHotel = async (req, res, next) => {
         next(error);
     }
 };
+
+module.exports.deleteHotel = async (req, res, next) => {
+    try {
+        await Hotel.findByIdAndDelete(req.params.id);
+        res.status(200).json("Hotel has been delete.")
+    } catch (error) {
+        next(error);
+    }
+};
