@@ -3,12 +3,14 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "node index",
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "nodemon index"
   },
-  "author": "AnTranCoder",
+  "keywords": [],
+  "author": "",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
