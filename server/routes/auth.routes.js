@@ -1,16 +1,11 @@
-import express from 'express';
+const express = require("express");
 const router = express.Router();
 
-router.get("/", (req, res) => {
-    res.send("Hello, this is auth endPoint")
-});
+const authControllers = require("../controllers/Auth.controllers");
 
-router.get("/register", (req, res) => {
-    res.send("Hello, this is register endPoint")
-});
+// @routes api/auth/register
+// @desc POST register
+// @access public
+router.post("/register", authControllers.register);
 
-router.get("/login", (req, res) => {
-    res.send("Hello, this is login endPoint")
-});
-
-export default router;
+module.exports = router;

@@ -1,7 +1,8 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
+
 const UserSchema = new mongoose.Schema(
     {
-        name: {
+        username: {
             type: String,
             required: true,
             unique: true,
@@ -13,18 +14,18 @@ const UserSchema = new mongoose.Schema(
         },
         country: {
             type: String,
-            required: true,
+            // required: true,
         },
         img: {
             type: String,
         },
         city: {
             type: String,
-            required: true,
+            // required: true,
         },
         phone: {
             type: String,
-            required: true,
+            // required: true,
         },
         password: {
             type: String,
@@ -38,4 +39,4 @@ const UserSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
-export default mongoose.model("User", UserSchema);
+module.exports = mongoose.model("User", UserSchema);
