@@ -1,7 +1,7 @@
 const User = require("../models/User.model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { createError } = require("../utils/error");
+const createError = require("../utils/error");
 
 module.exports.register = async (req, res, next) => {
 
@@ -43,7 +43,7 @@ module.exports.login = async (req, res, next) => {
         const { password, isAdmin, ...otherDetails } = user._doc;
         res.cookie("access_token", token, {
             httpOnly: true,
-        }).status(200).json({ details: { ...otherDetails }, isAdmin });
+        }).status(200).json({ details: { ...otherDetails }, isAdmin, token });
     } catch (error) {
         next(error);
     }
