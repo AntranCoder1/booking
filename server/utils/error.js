@@ -1,4 +1,4 @@
-export const createError = (status, message) => {
+module.exports.createError = (status, message) => {
     const err = new Error();
     err.stack = status;
     err.message = message;

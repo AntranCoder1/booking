@@ -5,7 +5,8 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
 const authRoutes = require("./routes/auth.routes");
-const hetelRoutes = require("./routes/hotel.routes");
+const hotelRoutes = require("./routes/hotel.routes");
+const userRoutes = require("./routes/user.routes");
 
 const app = express();
 dotenv.config();
@@ -29,7 +30,8 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
-app.use("/api/hotels", hetelRoutes);
+app.use("/api/hotels", hotelRoutes);
+app.use("/api/users", userRoutes);
 
 app.use((err, req, res, next) => {
     const errorStatus = err.status || 500;
