@@ -15,6 +15,7 @@ import "react-date-range/dist/theme/default.css"; // theme css file
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import { SearchContext } from '../../redux/context/SearchContext';
+import { useSelector } from 'react-redux'; 
 
 const Header = ({ type }) => {
 
@@ -45,6 +46,7 @@ const Header = ({ type }) => {
     };
 
     const navigate = useNavigate();
+    const users = useSelector(state => state.auth.user);
 
     const { dispatch } = useContext(SearchContext);
 
@@ -87,6 +89,9 @@ const Header = ({ type }) => {
                             Get rewarded for your travels – unlock instant savings of 10% or
                             more with a free Lamabooking account
                         </p>
+                        { !users && (
+                            <button className="headerBtn">Sign in / Register</button>
+                        ) }
                         <button className="headerBtn">Sign in / Register</button>
                         <div className="headerSearch">
                             <div className="headerSearchItem">

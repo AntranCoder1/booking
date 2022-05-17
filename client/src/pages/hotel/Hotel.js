@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './Hotel.css';
 import Navbar from '../../components/navbar/Navbar';
 import Header from '../../components/header/Header';
@@ -14,15 +14,42 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import UseFetch from '../../hook/UseFetch';
 import { useLocation } from 'react-router-dom';
 import { SearchContext } from '../../redux/context/SearchContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { getHotel } from '../../redux/HotelCall';
+import { useNavigate } from 'react-router-dom';
 
 const Hotel = () => {
 
     const location = useLocation();
-    const id = location.pathname.split("/")[2];
+    const hotelId = location.pathname.split("/")[2];
+
+    // const id = useSelector(state => 
+    //     state.hotels.hotels.find((item) => item._id === hotelId)
+    // );
+
+    const hotels = useSelector(state => state.hotels.hotels);
+
+    const id = hotels.map(item => {
+        if (item._id === hotelId) {
+            return item;
+        }
+    })
+
+    const filter = id.filter(item => item !== undefined)
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const users = useSelector(state => state.auth.user);
+
+    useEffect(() => {
+        dispatch(getHotel);
+    }, [dispatch]);
+    
     const [slideNumber, setSlideNumber] = useState(0);
     const [open, setOpen] = useState(false);
 
-    const { data, loading, error } = UseFetch(`/hotels/find/${id}`);
+    const { data, loading, error } = UseFetch(`/hotels/find/${filter}`);
 
     const { dates, options } = useContext(SearchContext);
 
@@ -52,7 +79,13 @@ const Hotel = () => {
         setSlideNumber(newSlideNumber);
     };
 
-    
+    const handleClick = () => {
+        if (users) {
+            console.log("ok man you readly!")
+        } else {
+            navigate("/");
+        }
+    }
 
     return (
         <div>
@@ -129,7 +162,7 @@ const Hotel = () => {
                                 <h2>
                                     <b>${ days * data.cheapestPrice * options.room}</b> ({days} nights)
                                 </h2>
-                                <button>Reserve or Book Now!</button>
+                                <button onClick={handleClick}>Reserve or Book Now!</button>
                             </div>
                         </div>
                     </div>
