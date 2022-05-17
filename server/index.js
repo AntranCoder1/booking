@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import morgan from "morgan";
 
 import authRoutes from "./routes/Auth.js";
 import userRoutes from "./routes/User.js";
@@ -29,6 +30,7 @@ mongoose.connection.on("disconnected", () => {
 app.use(cors())
 app.use(cookieParser())
 app.use(express.json());
+app.use(morgan("common"));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
