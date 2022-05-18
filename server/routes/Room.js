@@ -4,7 +4,8 @@ import {
     updateRoom,
     deleteRoom,
     getRoom,
-    getAllRoom
+    getAllRoom,
+    updateRoomAvailability
 } from "../controllers/Room.js";
 
 import { verifyAdmin } from "../utils/verifyToken.js";
@@ -35,5 +36,10 @@ router.get("/find/:id", getRoom);
 // @desc GET get all room
 // @access public
 router.get("/", getAllRoom);
+
+// @routes api/rooms/availability/:id
+// @desc PUT update unavailableDates
+// @access private
+router.put("/availability/:id", updateRoomAvailability);
 
 export default router;

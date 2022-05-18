@@ -17,25 +17,16 @@ import { SearchContext } from '../../redux/context/SearchContext';
 import { useDispatch, useSelector } from 'react-redux';
 import { getHotel } from '../../redux/HotelCall';
 import { useNavigate } from 'react-router-dom';
+import Reserve from '../../components/reserve/Reserve'; 
 
 const Hotel = () => {
 
     const location = useLocation();
     const hotelId = location.pathname.split("/")[2];
 
-    // const id = useSelector(state => 
-    //     state.hotels.hotels.find((item) => item._id === hotelId)
-    // );
-
-    const hotels = useSelector(state => state.hotels.hotels);
-
-    const id = hotels.map(item => {
-        if (item._id === hotelId) {
-            return item;
-        }
-    })
-
-    const filter = id.filter(item => item !== undefined)
+    const id = useSelector(state => 
+        state.hotels.hotels.find((item) => item._id === hotelId)
+    );
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -48,8 +39,9 @@ const Hotel = () => {
     
     const [slideNumber, setSlideNumber] = useState(0);
     const [open, setOpen] = useState(false);
+    const [openModal, setOpenModal] = useState(false);
 
-    const { data, loading, error } = UseFetch(`/hotels/find/${filter}`);
+    const { data, loading, error } = UseFetch(`/hotels/find/${id._id}`);
 
     const { dates, options } = useContext(SearchContext);
 
@@ -81,7 +73,7 @@ const Hotel = () => {
 
     const handleClick = () => {
         if (users) {
-            console.log("ok man you readly!")
+            setOpenModal(true);
         } else {
             navigate("/");
         }
@@ -170,6 +162,7 @@ const Hotel = () => {
                     <Footer />
                 </div>
             ) }
+            { openModal && <Reserve setOpen={setOpenModal} hotelId={id._id} /> }
         </div>
     )
 }
