@@ -4,7 +4,7 @@ import { userColumns, userRows } from "../../datatablesource";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux'; 
-import { getUser } from '../../context/redux/user/ApiUserCall';
+import { getUser, deleteUser } from '../../context/redux/user/ApiUserCall';
 
 const Datatable = () => {
 
@@ -18,7 +18,7 @@ const Datatable = () => {
   const [data, setData] = useState(users);
 
   const handleDelete = (id) => {
-    // setData(data.filter((item) => item.id !== id));
+    deleteUser(dispatch, id);
   };
 
 
@@ -35,7 +35,7 @@ const Datatable = () => {
             </Link>
             <div
               className="deleteButton"
-              onClick={() => handleDelete(params.row.id)}
+              onClick={() => handleDelete(params.row._id)}
             >
               Delete
             </div>
