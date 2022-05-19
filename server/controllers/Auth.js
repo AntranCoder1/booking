@@ -2,15 +2,24 @@ import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { createError } from "../utils/error.js";
+import CryptoJS from "crypto-js";
+
+const maxAge = 3 * 24 * 60 * 60 * 1000;
+
+const createToken = (id, isAdmin) => {
+    return jwt.sign({id, isAdmin}, process.env.JWT, {
+        expiresIn: maxAge
+    })
+};
 
 export const register = async (req, res, next) => {
-    const salt = bcrypt.genSaltSync(10);
-    const hash = bcrypt.hashSync(req.body.password, salt);
-
     const newUser = new User({
         username: req.body.username,
         email: req.body.email,
-        password: hash,
+        password: CryptoJS.AES.encrypt(
+            req.body.password,
+            process.env.JWT
+        ).toString(),
     });
 
     try {
@@ -21,32 +30,57 @@ export const register = async (req, res, next) => {
     }
 };
 
+// export const login = async (req, res, next) => {
+//     try {
+//         const user = await User.findOne({ username: req.body.username });
+//         if (!user) return next(createError(404, "User not found!"));
+    
+//         const isPasswordCorrect = await bcrypt.compare(
+//             req.body.password,
+//             user.password
+//         );
+
+//         if (!isPasswordCorrect)
+//             return next(createError(400, "Wrong password or username!"));
+    
+//         const token = jwt.sign(
+//             { id: user._id, isAdmin: user.isAdmin },
+//             process.env.JWT
+//         );
+    
+//         const { password, isAdmin, ...otherDetails } = user._doc;
+//         res
+//             .cookie("access_token", token, {
+//                 httpOnly: true,
+//             })
+//             .status(200)
+//             .json({ details: { ...otherDetails }, isAdmin });
+//     } catch (err) {
+//         next(err);
+//     }
+// };
+
 export const login = async (req, res, next) => {
     try {
         const user = await User.findOne({ username: req.body.username });
         if (!user) return next(createError(404, "User not found!"));
-    
-        const isPasswordCorrect = await bcrypt.compare(
-            req.body.password,
-            user.password
-        );
 
-        if (!isPasswordCorrect)
-            return next(createError(400, "Wrong password or username!"));
-    
-        const token = jwt.sign(
-            { id: user._id, isAdmin: user.isAdmin },
+        const validPassword = CryptoJS.AES.decrypt(
+            user.password,
             process.env.JWT
         );
-    
-        const { password, isAdmin, ...otherDetails } = user._doc;
-        res
-            .cookie("access_token", token, {
-                httpOnly: true,
-            })
-            .status(200)
-            .json({ details: { ...otherDetails }, isAdmin });
-    } catch (err) {
-        next(err);
+
+        const originalPassword = validPassword.toString(CryptoJS.enc.Utf8);
+
+        originalPassword !== req.body.password && 
+            res.status(401).json("Wrong password");
+
+        const token = createToken(user._id, user.isAdmin);
+        res.cookie('jwt', token, { httpOnly: true, maxAge });
+
+        const { password, __v, email, updatedAt, createdAt, ...others } = user._doc;
+        res.status(200).json({ ...others, token })
+    } catch (error) {
+        next(error);
     }
 };
