@@ -13,6 +13,7 @@ import storage from "redux-persist/lib/storage";
 
 import AuthRedux from './AuthRedux';
 import UserRedux from './user/UserRedux';
+import HotelRedux from './hotel/HotelRedux';
 
 const persistConfig = {
     key: "root",
@@ -23,6 +24,7 @@ const persistConfig = {
 const rootReducer = combineReducers({ 
     admin: AuthRedux,
     users: UserRedux,
+    hotels: HotelRedux,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

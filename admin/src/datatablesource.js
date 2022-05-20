@@ -18,7 +18,6 @@ export const userColumns = [
     headerName: "Email",
     width: 230,
   },
-
   {
     field: "country",
     headerName: "Country",
@@ -32,6 +31,30 @@ export const userColumns = [
   {
     field: "phone",
     headerName: "Phone",
+    width: 100,
+  },
+];
+
+export const hotelColumns = [
+  { field: "_id", headerName: "ID", width: 250 },
+  {
+    field: "name",
+    headerName: "Name",
+    width: 150,
+  },
+  {
+    field: "type",
+    headerName: "Type",
+    width: 100,
+  },
+  {
+    field: "title",
+    headerName: "Title",
+    width: 230,
+  },
+  {
+    field: "city",
+    headerName: "City",
     width: 100,
   },
 ];
