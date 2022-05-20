@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux'; 
 import { getUser, deleteUser } from '../../context/redux/user/ApiUserCall';
 
-const Datatable = () => {
+const Datatable = ({ columns }) => {
 
   const users = useSelector(state => state.users.users);
   const dispatch = useDispatch();
@@ -55,7 +55,7 @@ const Datatable = () => {
       <DataGrid
         className="datagrid"
         rows={data}
-        columns={userColumns.concat(actionColumn)}
+        columns={columns.concat(actionColumn)}
         pageSize={9}
         rowsPerPageOptions={[9]}
         checkboxSelection
