@@ -21,13 +21,32 @@ export const hotelSlice = createSlice({
             state.isFetching = false;
             state.error = true;
         },
+
+        // DELETE USER
+        deleteHotelStart: (state) => {
+            state.isFetching = true;
+            state.error = false;
+        },
+        deleteHotelSuccess: (state, action) => {
+            state.isFetching = false;
+            state.hotels.slice(
+                state.hotels.findIndex((item) => item._id === action.payload), 1
+            )
+        },
+        deleteHotelFailure: (state) => {
+            state.isFetching = false;
+            state.error = true;
+        }
     }
 });
 
 export const { 
     getHotelStart,
     getHotelSuccess,
-    getHotelFailure
+    getHotelFailure,
+    deleteHotelStart,
+    deleteHotelSuccess,
+    deleteHotelFailure
 } = hotelSlice.actions;
 
 export default hotelSlice.reducer;

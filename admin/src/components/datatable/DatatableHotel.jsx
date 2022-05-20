@@ -3,7 +3,7 @@ import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-import { getHotels } from '../../context/redux/hotel/ApiHotelCall';
+import { getHotels, deleteHotel } from '../../context/redux/hotel/ApiHotelCall';
 
 const DatatableHotel = ({ columns }) => {
 
@@ -18,7 +18,7 @@ const DatatableHotel = ({ columns }) => {
     const [data, setData] = useState(hotels);
 
     const handleDelete = async (id) => {
-
+        deleteHotel(dispatch, id);
     };
 
     const actionColumn = [
