@@ -8,9 +8,32 @@ import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutline
 import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext } from "react";
+import { useSelector } from 'react-redux';
 
 const Navbar = () => {
   const { dispatch } = useContext(DarkModeContext);
+
+  const admin = useSelector(state => state.admin.currentAdmin?.details);
+  const users = useSelector(state => 
+    state.users.users.map((item => {
+      if (item._id === admin._id) {
+        return item
+      }
+    }))
+  );
+
+  const checkImg = users.filter(item => {
+    return item !== undefined
+  })
+
+  var obj = checkImg.reduce(function(acc, cur, i) {
+    acc[i] = cur;
+    return acc;
+  }, {})
+
+  const image = checkImg.map((item) => item.img);
+
+  console.log(image.join())
 
   return (
     <div className="navbar">
@@ -46,7 +69,7 @@ const Navbar = () => {
           </div>
           <div className="item">
             <img
-              src="https://images.pexels.com/photos/941693/pexels-photo-941693.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+              src={image.join() || "https://images.pexels.com/photos/941693/pexels-photo-941693.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"}
               alt=""
               className="avatar"
             />
