@@ -44,6 +44,11 @@ const Datatable = ({ columns }) => {
       },
     },
   ];
+
+  useEffect(() => {
+    document.title = "Booking - Admin - Users"
+  })
+
   return (
     <div className="datatable">
       <div className="datatableTitle">

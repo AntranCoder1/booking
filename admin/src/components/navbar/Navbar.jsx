@@ -26,14 +26,7 @@ const Navbar = () => {
     return item !== undefined
   })
 
-  var obj = checkImg.reduce(function(acc, cur, i) {
-    acc[i] = cur;
-    return acc;
-  }, {})
-
   const image = checkImg.map((item) => item.img);
-
-  console.log(image.join())
 
   return (
     <div className="navbar">
