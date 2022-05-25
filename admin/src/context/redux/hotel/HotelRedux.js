@@ -1,6 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
-export const hotelSlice = createSlice({
+const hotelSlice = createSlice({
     name: "hotels",
     initialState: {
         hotels: [],
@@ -8,10 +8,10 @@ export const hotelSlice = createSlice({
         error: false,
     },
     reducers: {
-        // GET HOTELS
+        // GET HOTEL
         getHotelStart: (state) => {
             state.isFetching = true;
-            state.error =  false;
+            state.error = false;
         },
         getHotelSuccess: (state, action) => {
             state.isFetching = false;
@@ -22,18 +22,16 @@ export const hotelSlice = createSlice({
             state.error = true;
         },
 
-        // DELETE USER
-        deleteHotelStart: (state) => {
+        // CREATE HOTEL
+        createHotelStart: (state) => {
             state.isFetching = true;
             state.error = false;
         },
-        deleteHotelSuccess: (state, action) => {
+        createHotelSuccess: (state, action) => {
             state.isFetching = false;
-            state.hotels.slice(
-                state.hotels.findIndex((item) => item._id === action.payload), 1
-            )
+            state.hotels.push(action.payload);
         },
-        deleteHotelFailure: (state) => {
+        createHotelFailure: (state) => {
             state.isFetching = false;
             state.error = true;
         }
@@ -44,9 +42,9 @@ export const {
     getHotelStart,
     getHotelSuccess,
     getHotelFailure,
-    deleteHotelStart,
-    deleteHotelSuccess,
-    deleteHotelFailure
+    createHotelStart,
+    createHotelSuccess,
+    createHotelFailure
 } = hotelSlice.actions;
 
 export default hotelSlice.reducer;

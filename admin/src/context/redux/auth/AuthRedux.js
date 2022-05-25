@@ -1,13 +1,14 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
-export const authSlice = createSlice({
+const authSlice = createSlice({
     name: "admin",
     initialState: {
         currentAdmin: null,
         isFetching: false,
-        error: false,
+        error: false
     },
     reducers: {
+        // LOGIN
         loginStart: (state) => {
             state.isFetching = true;
             state.error = false;
@@ -19,10 +20,16 @@ export const authSlice = createSlice({
         loginFailure: (state) => {
             state.isFetching = false;
             state.error = true;
-        }
+        },
+
+        // LOGOUT
+        logout: (state) => {
+            state.currentAdmin = null
+        },
+
     }
 });
 
-export const { loginStart, loginSuccess, loginFailure } = authSlice.actions;
+export const { loginStart, loginSuccess, loginFailure, logout } = authSlice.actions;
 
 export default authSlice.reducer;

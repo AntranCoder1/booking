@@ -1,5 +1,5 @@
-import { loginStart, loginSuccess, loginFailure } from './AuthRedux';
-import axios from 'axios';
+import { loginStart, loginSuccess, loginFailure } from "./AuthRedux";
+import axios from "axios";
 
 export const login = async (admin, dispatch) => {
     dispatch(loginStart());
@@ -9,4 +9,4 @@ export const login = async (admin, dispatch) => {
     } catch (error) {
         dispatch(loginFailure());
     }
-};
+}

@@ -11,17 +11,26 @@ import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import SettingsSystemDaydreamOutlinedIcon from "@mui/icons-material/SettingsSystemDaydreamOutlined";
 import PsychologyOutlinedIcon from "@mui/icons-material/PsychologyOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext } from "react";
+import { logout } from "../../context/redux/auth/AuthRedux";
+import { useDispatch } from "react-redux";
 
 const Sidebar = () => {
   const { dispatch } = useContext(DarkModeContext);
+  const dispatchR = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    dispatchR(logout());
+  };
+
   return (
     <div className="sidebar">
       <div className="top">
         <Link to="/" style={{ textDecoration: "none" }}>
-          <span className="logo">anbooking</span>
+          <span className="logo">lamadmin</span>
         </Link>
       </div>
       <hr />
@@ -45,12 +54,10 @@ const Sidebar = () => {
               <span>Hotels</span>
             </li>
           </Link>
-          <Link to="/rooms" style={{ textDecoration: "none" }}>
-            <li>
-              <CreditCardIcon className="icon" />
-              <span>Rooms</span>
-            </li>
-          </Link>
+          <li>
+            <CreditCardIcon className="icon" />
+            <span>Orders</span>
+          </li>
           <li>
             <LocalShippingIcon className="icon" />
             <span>Delivery</span>
@@ -82,7 +89,7 @@ const Sidebar = () => {
             <AccountCircleOutlinedIcon className="icon" />
             <span>Profile</span>
           </li>
-          <li>
+          <li onClick={handleLogout}>
             <ExitToAppIcon className="icon" />
             <span>Logout</span>
           </li>

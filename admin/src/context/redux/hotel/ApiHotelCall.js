@@ -2,28 +2,28 @@ import {
     getHotelStart,
     getHotelSuccess,
     getHotelFailure,
-    deleteHotelStart,
-    deleteHotelSuccess,
-    deleteHotelFailure
-} from './HotelRedux';
-import axios from 'axios';
+    createHotelStart,
+    createHotelSuccess,
+    createHotelFailure,
+} from "./HotelRedux";
+import axios from "axios";
 
-export const getHotels = async (dispatch, hotel) => {
+export const getHotel = async (dispatch) => {
     dispatch(getHotelStart());
     try {
-        const res = await axios.get("/hotels", hotel);
+        const res = await axios.get("/hotels");
         dispatch(getHotelSuccess(res.data));
     } catch (error) {
         dispatch(getHotelFailure());
     }
 };
 
-export const deleteHotel = async (dispatch, id) => {
-    dispatch(deleteHotelStart());
+export const createHotel = async (dispatch, hotel) => {
+    dispatch(createHotelStart());
     try {
-        await axios.delete("/hotels/" + id);
-        dispatch(deleteHotelSuccess(id));
+        const res = await axios.post("/hotels/", hotel);
+        dispatch(createHotelSuccess(res.data));
     } catch (error) {
-        dispatch(deleteHotelFailure());
+        dispatch(createHotelFailure());
     }
 };

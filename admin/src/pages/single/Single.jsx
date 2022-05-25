@@ -4,17 +4,16 @@ import Navbar from "../../components/navbar/Navbar";
 import Chart from "../../components/chart/Chart";
 import List from "../../components/table/Table";
 import { useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const Single = () => {
 
   const location = useLocation();
-  const dispatch = useDispatch();
 
-  const userId = location.pathname.split('/')[2];
+  const userId = location.pathname.split("/")[2]
 
   const user = useSelector(state => 
-    state.users.users.find((item) => item._id === userId)  
+    state.users.users.find((item) => item._id === userId)
   );
 
   return (
@@ -28,7 +27,7 @@ const Single = () => {
             <h1 className="title">Information</h1>
             <div className="item">
               <img
-                src={user.img || "https://i.ibb.co/MBtjqXQ/no-avatar.gif"}
+                src={user.img || "https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"}
                 alt=""
                 className="itemImg"
               />
@@ -43,10 +42,8 @@ const Single = () => {
                   <span className="itemValue">+{user.phone}</span>
                 </div>
                 <div className="detailItem">
-                  <span className="itemKey">City:</span>
-                  <span className="itemValue">
-                    {user.city}
-                  </span>
+                  <span className="itemKey">Address:</span>
+                  <span className="itemValue">{user.city}</span>
                 </div>
                 <div className="detailItem">
                   <span className="itemKey">Country:</span>

@@ -1,28 +1,60 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { userColumns, userRows } from "../../datatablesource";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from 'react-redux'; 
-import { getUser, deleteUser } from '../../context/redux/user/ApiUserCall';
+import { getUser, deleteUser } from "../../context/redux/user/ApiUserCall";
+import { useSelector, useDispatch } from "react-redux";
 
-const Datatable = ({ columns }) => {
+const Datatable = () => {
 
   const users = useSelector(state => state.users.users);
+  const [data, setData] = useState(users);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    getUser(dispatch);
+    getUser(dispatch)
   }, [dispatch]);
-
-  const [data, setData] = useState(users);
 
   const handleDelete = (id) => {
     deleteUser(dispatch, id);
   };
 
+  const columns = [
+    { field: "_id", headerName: "ID", width: 70 },
+    {
+      field: "user",
+      headerName: "User",
+      width: 230,
+      renderCell: (params) => {
+        return (
+          <div className="cellWithImg">
+            <img className="cellImg" src={params.row.img || "https://i.ibb.co/MBtjqXQ/no-avatar.gif"} alt="avatar" />
+            {params.row.username}
+          </div>
+        );
+      },
+    },
+    {
+      field: "email",
+      headerName: "Email",
+      width: 230,
+    },
 
-  const actionColumn = [
+    {
+      field: "country",
+      headerName: "Country",
+      width: 100,
+    },
+    {
+      field: "city",
+      headerName: "City",
+      width: 100,
+    },
+    {
+      field: "phone",
+      headerName: "Phone",
+      width: 100,
+    },
     {
       field: "action",
       headerName: "Action",
@@ -44,6 +76,7 @@ const Datatable = ({ columns }) => {
       },
     },
   ];
+
   return (
     <div className="datatable">
       <div className="datatableTitle">
@@ -54,8 +87,8 @@ const Datatable = ({ columns }) => {
       </div>
       <DataGrid
         className="datagrid"
-        rows={data}
-        columns={columns.concat(actionColumn)}
+        rows={users}
+        columns={columns}
         pageSize={9}
         rowsPerPageOptions={[9]}
         checkboxSelection
