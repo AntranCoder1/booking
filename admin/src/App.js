@@ -7,6 +7,7 @@ import Single from "./pages/single/Single";
 import New from "./pages/new/New";
 import NewHotel from "./pages/new/NewHotel";
 import NewRoom from "./pages/new/NewRoom";
+import UpdateUser from "./pages/update/UpdateUser";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { productInputs, userInputs } from "./formSource";
 import "./style/dark.scss";
@@ -38,6 +39,10 @@ function App() {
               <Route
                 path="new"
                 element={admin ? <New inputs={userInputs} title="Add New User" /> : <Login />}
+              />
+              <Route
+                path="update/:userId"
+                element={admin ? <UpdateUser title="Update User" /> : <Login />}
               />
             </Route>
             <Route path="hotels">

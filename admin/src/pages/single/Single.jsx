@@ -5,6 +5,7 @@ import Chart from "../../components/chart/Chart";
 import List from "../../components/table/Table";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Single = () => {
 
@@ -23,7 +24,9 @@ const Single = () => {
         <Navbar />
         <div className="top">
           <div className="left">
-            <div className="editButton">Edit</div>
+            <Link to={`/users/update/${user._id}`}>
+              <div className="editButton">Edit</div>
+            </Link>
             <h1 className="title">Information</h1>
             <div className="item">
               <img
