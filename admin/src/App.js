@@ -2,6 +2,7 @@ import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
 import List from "./pages/list/List";
 import ListHotel from "./pages/list/ListHotel";
+import ListRoom from "./pages/list/ListRoom";
 import Single from "./pages/single/Single";
 import New from "./pages/new/New";
 import NewHotel from "./pages/new/NewHotel";
@@ -41,6 +42,14 @@ function App() {
             <Route path="hotels">
               <Route index element={admin ? <ListHotel /> : <Login />} />
               <Route path=":hotelId" element={admin ? <Single /> : <Login />} />
+              <Route
+                path="new"
+                element={admin ? <NewHotel inputs={productInputs} title="Add New Product" /> : <Login />}
+              />
+            </Route>
+            <Route path="rooms">
+              <Route index element={admin ? <ListRoom /> : <Login />} />
+              <Route path=":roomId" element={admin ? <Single /> : <Login />} />
               <Route
                 path="new"
                 element={admin ? <NewHotel inputs={productInputs} title="Add New Product" /> : <Login />}
