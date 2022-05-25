@@ -10,8 +10,7 @@ import {
     REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-
-import AuthRedux from './AuthRedux';
+import AuthRedux from './auth/AuthRedux';
 import UserRedux from './user/UserRedux';
 import HotelRedux from './hotel/HotelRedux';
 

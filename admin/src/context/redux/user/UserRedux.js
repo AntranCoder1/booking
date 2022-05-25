@@ -1,6 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
-export const userSlice = createSlice({
+const userSlice = createSlice({
     name: "users",
     initialState: {
         users: [],
@@ -8,7 +8,7 @@ export const userSlice = createSlice({
         error: false,
     },
     reducers: {
-        // GET USER
+        // GET USERS
         getUserStart: (state) => {
             state.isFetching = true;
             state.error = false;
@@ -19,21 +19,35 @@ export const userSlice = createSlice({
         },
         getUserFailure: (state) => {
             state.isFetching = false;
-            state.error = true
+            state.error = true;
         },
 
-        // DELETE USER
+        // DELETE USERS
         deleteUserStart: (state) => {
             state.isFetching = true;
             state.error = false;
         },
         deleteUserSuccess: (state, action) => {
             state.isFetching = false;
-            state.users.slice(
+            state.users.splice(
                 state.users.findIndex((item) => item._id === action.payload), 1
             )
         },
         deleteUserFailure: (state) => {
+            state.isFetching = false;
+            state.error = true;
+        },
+        
+        // CREATE USER
+        createUserStart: (state) => {
+            state.isFetching = true;
+            state.error = false;
+        },
+        createUserSuccess: (state, action) => {
+            state.isFetching = false;
+            state.users.push(action.payload);
+        },
+        createUserFailure: (state) => {
             state.isFetching = false;
             state.error = true;
         }
@@ -41,12 +55,15 @@ export const userSlice = createSlice({
 });
 
 export const { 
-    getUserStart, 
-    getUserSuccess, 
-    getUserFailure ,
+    getUserStart,
+    getUserSuccess,
+    getUserFailure,
     deleteUserStart,
     deleteUserSuccess,
-    deleteUserFailure
+    deleteUserFailure,
+    createUserStart,
+    createUserSuccess,
+    createUserFailure
 } = userSlice.actions;
 
 export default userSlice.reducer;

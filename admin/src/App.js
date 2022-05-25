@@ -4,18 +4,18 @@ import List from "./pages/list/List";
 import ListHotel from "./pages/list/ListHotel";
 import Single from "./pages/single/Single";
 import New from "./pages/new/New";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import NewHotel from "./pages/new/NewHotel";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { productInputs, userInputs } from "./formSource";
 import "./style/dark.scss";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
-import { useSelector } from 'react-redux';
-import { userColumns, hotelColumns } from './datatablesource';
+import { useSelector } from "react-redux";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
 
-  const admin = useSelector(state => state.admin.currentAdmin?.isAdmin);
+  const admin = useSelector(state => state.admin.currentAdmin?.isAdmin)
 
   return (
     <div className={darkMode ? "app dark" : "app"}>
@@ -31,7 +31,7 @@ function App() {
               }
             />
             <Route path="users">
-              <Route index element={admin ? <List columns={userColumns} /> : <Login />} />
+              <Route index element={admin ? <List /> : <Login />} />
               <Route path=":userId" element={admin ? <Single /> : <Login />} />
               <Route
                 path="new"
@@ -39,11 +39,11 @@ function App() {
               />
             </Route>
             <Route path="hotels">
-              <Route index element={admin ? <ListHotel columns={hotelColumns} /> : <Login />} />
+              <Route index element={admin ? <ListHotel /> : <Login />} />
               <Route path=":hotelId" element={admin ? <Single /> : <Login />} />
               <Route
                 path="new"
-                element={<New inputs={productInputs} title="Add New Product" />}
+                element={admin ? <NewHotel inputs={productInputs} title="Add New Product" /> : <Login />}
               />
             </Route>
           </Route>

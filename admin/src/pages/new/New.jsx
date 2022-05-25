@@ -2,45 +2,49 @@ import "./new.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-import { useEffect, useState } from "react";
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; 
+import { useState } from "react";
+import { createUser } from "../../context/redux/user/ApiUserCall";
+import { useDispatch } from "react-redux";
+import axios from "axios";
+import { display } from "@mui/system";
+import { useNavigate } from "react-router-dom";
+import { SnackbarProvider, useSnackbar } from 'notistack';
 
 const New = ({ inputs, title }) => {
   const [file, setFile] = useState("");
-  const [info, setInfo] = useState({});
+  const [user, setUser] = useState(null);
 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const { enqueueSnackbar } = useSnackbar();
+
   const handleChange = (e) => {
-    setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
+    const value = e.target.value;
+    setUser({ ...user, [e.target.name]: value })
   };
 
-  const handleClick = async (e) => {
+  const handleClick = (variant) => async (e) => {
     e.preventDefault();
     const data = new FormData();
-    data.append("file", file)
-    data.append("upload_preset", "upload")
+    data.append("file", file);
+    data.append("upload_preset", "upload");
     try {
-      const uploadRes = await axios.post("https://api.cloudinary.com/v1_1/dtukcgrf7/image/upload", data)
-
-      const { url } = uploadRes.data
+      const uploadRes = await axios.post("https://api.cloudinary.com/v1_1/dtukcgrf7/image/upload", data);
+      const { url } = uploadRes.data;
 
       const newUser = {
-        ...info,
+        ...user,
         img: url
-      }
+      };
 
-      await axios.post("/auth/register", newUser)
-      navigate("/users")
+      await createUser(display, newUser);
+      enqueueSnackbar('Create a new user complete!', { variant });
+      navigate("/users");
     } catch (error) {
       console.log(error);
     }
   };
-
-  useEffect(() => {
-    document.title = "Booking - Admin - CreateUser";
-  });
 
   return (
     <div className="new">
@@ -74,19 +78,68 @@ const New = ({ inputs, title }) => {
                   style={{ display: "none" }}
                 />
               </div>
+              <div className="formInput">
+                <label>Username</label>
+                <input 
+                  type="text" 
+                  placeholder="Username"
+                  name="username"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="formInput">
+                <label>Email</label>
+                <input 
+                  type="email"
+                  placeholder="email@gmail.com"
+                  name="email"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="formInput">
+                <label>Phone</label>
+                <input 
+                  type="text"
+                  placeholder="+1 234 567 89"
+                  name="phone"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="formInput">
+                <label>Password</label>
+                <input 
+                  type="password"
+                  placeholder="password"
+                  name="password"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="formInput">
+                <label>Country</label>
+                <input 
+                  type="text"
+                  placeholder="Country"
+                  name="country"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="formInput">
+                <label>City</label>
+                <input 
+                  type="text" 
+                  placeholder="City"
+                  name="city"
+                  onChange={handleChange}
+                />
+              </div>
 
-              {inputs.map((input) => (
+              {/* {inputs.map((input) => (
                 <div className="formInput" key={input.id}>
                   <label>{input.label}</label>
-                  <input 
-                    type={input.type} 
-                    placeholder={input.placeholder} 
-                    onChange={handleChange}
-                    id={input.id}  
-                  />
+                  <input type={input.type} placeholder={input.placeholder} />
                 </div>
-              ))}
-              <button onClick={handleClick}>Send</button>
+              ))} */}
+              <button onClick={handleClick('success')}>Send</button>
             </form>
           </div>
         </div>

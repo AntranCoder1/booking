@@ -1,22 +1,19 @@
+import React, { useState } from 'react';
 import "./login.scss";
-import {  useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { login } from '../../context/redux/ApiAuthCall';
+import { login } from "../../context/redux/auth/ApiAuthCall";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
 
-  const [admin, setAdmin] = useState(null);
-
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const [admin, setAdmin] = useState(null);
 
   const handleChange = (e) => {
     const value = e.target.value;
     setAdmin({ ...admin, [e.target.name]: value });
   };
 
-  const handleClick = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     login(admin, dispatch);
   };
@@ -38,7 +35,10 @@ const Login = () => {
           className="lInput"
           onChange={handleChange}
         />
-        <button className="lButton" onClick={handleClick}>
+        <button 
+          className="lButton"
+          onClick={handleSubmit}
+        >
           Login
         </button>
       </div>
