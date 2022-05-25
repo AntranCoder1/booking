@@ -48,7 +48,7 @@ const Datatable = () => {
     {
       field: "city",
       headerName: "City",
-      width: 100,
+      width: 200,
     },
     {
       field: "phone",
