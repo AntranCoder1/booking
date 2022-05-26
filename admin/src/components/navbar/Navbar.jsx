@@ -9,17 +9,37 @@ import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = ({ searchQuery, setSearchQuery }) => {
+
   const { dispatch } = useContext(DarkModeContext);
   const user = useSelector(state => state.admin.currentAdmin?.details);
+
+  const navigate = useNavigate();
+
+  const onSubmit = (e) => {
+    navigate.push(`?s=${searchQuery}`);
+    e.preventDefault();
+  };
 
   return (
     <div className="navbar">
       <div className="wrapper">
         <div className="search">
-          <input type="text" placeholder="Search..." />
-          <SearchOutlinedIcon />
+          <form method="get" autoComplete="off" onSubmit={onSubmit}>
+            <input 
+              value={searchQuery}
+              onInput={(e) => setSearchQuery(e.target.value)}
+              type="text" 
+              placeholder="Search..." 
+              name="s"
+              id="header-search"  
+            />
+            <button type="submit" style={{ border: "none" }}>
+              <SearchOutlinedIcon />
+            </button>
+          </form>
         </div>
         <div className="items">
           <div className="item">
