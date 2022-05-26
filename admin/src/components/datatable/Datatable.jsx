@@ -1,19 +1,12 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { getUser, deleteUser } from "../../context/redux/user/ApiUserCall";
-import { useSelector, useDispatch } from "react-redux";
+import { deleteUser } from "../../context/redux/user/ApiUserCall";
+import { useDispatch } from "react-redux";
 
-const Datatable = () => {
+const Datatable = ({ filteredPosts }) => {
 
-  const users = useSelector(state => state.users.users);
-  const [data, setData] = useState(users);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    getUser(dispatch)
-  }, [dispatch]);
 
   const handleDelete = (id) => {
     deleteUser(dispatch, id);
@@ -87,7 +80,7 @@ const Datatable = () => {
       </div>
       <DataGrid
         className="datagrid"
-        rows={users}
+        rows={filteredPosts}
         columns={columns}
         pageSize={9}
         rowsPerPageOptions={[9]}
