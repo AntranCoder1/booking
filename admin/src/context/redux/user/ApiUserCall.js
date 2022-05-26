@@ -8,6 +8,9 @@ import {
     createUserStart,
     createUserSuccess,
     createUserFailure,
+    updateUserStart,
+    updateUserSuccess,
+    updateUserFailure,
 } from "./UserRedux";
 import axios from "axios";
 
@@ -38,5 +41,15 @@ export const createUser = async (dispatch, user) => {
         dispatch(createUserSuccess(res.data));
     } catch (error) {
         dispatch(createUserFailure());
+    }
+};
+
+export const updateUser = async (id, user, dispatch) => {
+    dispatch(updateUserStart());
+    try {
+        const res = await axios.put(`/users/${id}`, user);
+        dispatch(updateUserSuccess(id, res.data));
+    } catch (error) {
+        dispatch(updateUserFailure());
     }
 };
