@@ -28,6 +28,8 @@ const Hotel = () => {
         state.hotels.hotels.find((item) => item._id === hotelId)
     );
 
+    console.log(id.photos)
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -42,6 +44,8 @@ const Hotel = () => {
     const [openModal, setOpenModal] = useState(false);
 
     const { data, loading, error } = UseFetch(`/hotels/find/${id._id}`);
+
+    // console.log(data.photos)
 
     const { dates, options } = useContext(SearchContext);
 
@@ -115,7 +119,7 @@ const Hotel = () => {
                     )}
                     <div className="hotelWrapper">
                         <button className="bookNow">Reserve or Book Now!</button>
-                        <h1 className="hotelTitle">Tower Street Apartments</h1>
+                        <h1 className="hotelTitle">{data.name}</h1>
                         <div className="hotelAddress">
                             <FontAwesomeIcon icon={faLocationDot} />
                             <span>{data.address}</span>
@@ -127,11 +131,11 @@ const Hotel = () => {
                             Book a stay over ${data.cheapestPrice} at this property and get a free airport taxi
                         </span>
                         <div className="hotelImages">
-                            { data.photos?.map((photo, i) => (
+                            { id.photos.map((photo, i) => (
                                 <div className="hotelImgWrapper" key={i}>
                                     <img
                                         onClick={() => handleOpen(i)}
-                                        src={photo.src}
+                                        src={photo}
                                         alt=""
                                         className="hotelImg"
                                     />
