@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 
 const Navbar = () => {
 
-    // const users = useSelector(state => state.auth.user);
+    const users = useSelector(state => state.auth.user?.details);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -26,7 +26,7 @@ const Navbar = () => {
                 </Link>
                 { users ? (
                     <>
-                        {/* {users.username} */}
+                        {users.username}
                         <button onClick={handleLogout} className="navButton">Logout</button>
                     </>
                 ) : (
